@@ -1,16 +1,25 @@
 #ifndef COMPLEX_H
 #define COMPLEX_H
 
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <string.h>
+#define INPUT_SIZE 100
+
 typedef struct {
-    double real;
-    double imag;
+    float real;
+    float imag;
 } complex;
 
-complex add_complex(complex c1, complex c2);
-complex sub_complex(complex c1, complex c2);
-complex mul_real(complex c, double m);
-complex mul_imag(complex c, double mi);
-complex mul_complex(complex c1, complex c2);
-double abs_complex(complex c);
+void read_comp(complex *c, float r, float i);
+void print_comp(complex c);
+void add_comp(complex c1, complex c2);
+void sub_comp(complex c1, complex c2);
+void mult_comp_real(complex c1, float m);
+void mult_comp_img(complex c1, float m);
+void mult_comp_comp(complex c1, complex c2);
+void abs_comp(complex c);
+void stop();
 
-#endif 
+#endif
