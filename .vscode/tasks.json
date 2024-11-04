@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "gcc build active file",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-g",
+                "${workspaceFolder}/mmn22/mycomp.c",
+                "${workspaceFolder}/mmn22/complex.c",
+                "-o",
+                "${workspaceFolder}/mmn22/mycomp",
+                "-ansi",
+                "-pedantic",
+                "-Wall",
+                "-lm"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Generated task by Debugger."
+        }
+    ]
+}

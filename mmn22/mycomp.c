@@ -2,6 +2,8 @@
 #include "complex.h"
 
 void execute_command(char* command);
+complex* find_comp (char comp);
+
 complex A = {0, 0}, B = {0, 0}, C = {0, 0}, D = {0, 0}, E = {0, 0}, F = {0, 0};
 
 int main() {
@@ -30,64 +32,52 @@ void execute_command(char* command)
 {
     char comp;
     double real, imag;
-    
+
     if (sscanf(command, "read_comp %c, %lf, %lf", &comp, &real, &imag) == 3) 
     {
         printf("Setting complex %c to %.2f + (%.2f)i\n", comp, real, imag);
-        switch (comp)
-        {
-        case 'A':
-            read_comp(&A, real, imag);
-            break;
-        case 'B':
-            read_comp(&B, real, imag);
-            break;
-        case 'C':
-            read_comp(&C, real, imag);
-            break;
-        case 'D':
-            read_comp(&D, real, imag);
-            break;
-        case 'E':
-            read_comp(&E, real, imag);
-            break;
-        case 'F':
-            read_comp(&F, real, imag);
-            break;
-        default:
-            break;
-        }
+        read_comp(find_comp(comp), real, imag);
     } 
     else if (sscanf(command, "print_comp %c", &comp) == 1) 
     {
         printf("Printing complex %c\n", comp);
-                switch (comp)
-        {
-        case 'A':
-            print_comp(A);
-            break;
-        case 'B':
-            print_comp(B);
-            break;
-        case 'C':
-            print_comp(C);
-            break;
-        case 'D':
-            print_comp(D);
-            break;
-        case 'E':
-            print_comp(E);
-            break;
-        case 'F':
-            print_comp(F);
-            break;
-        default:
-            break;
-        }
+        print_comp(*find_comp(comp)); 
     } 
-    
+    else if (sscanf(command, "print_comp %c", &comp) == 1) 
+    {
+        printf("Printing complex %c\n", comp);
+        print_comp(*find_comp(comp)); 
+    } 
     else 
     {
         printf("Error: Unknown command or invalid format.\n");
+    }
+}
+
+
+complex* find_comp (char comp)
+{
+    switch (comp)
+    {
+    case 'A':
+        return &A;
+        break;
+    case 'B':
+        return &B;
+        break;
+    case 'C':
+        return &C;
+        break;
+    case 'D':
+        return &D;
+        break;
+    case 'E':
+        return &E;
+        break;
+    case 'F':
+        return &F;
+        break;
+    default: 
+        return NULL;
     }
 }
