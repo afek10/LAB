@@ -3,6 +3,7 @@
 
 void execute_command(char* command);
 complex* find_comp (char comp);
+void clean_input(char* input);
 
 complex A = {0, 0}, B = {0, 0}, C = {0, 0}, D = {0, 0}, E = {0, 0}, F = {0, 0};
 
@@ -16,6 +17,7 @@ int main() {
     {
         printf("\n> ");
         fgets(input, INPUT_SIZE, stdin);
+        clean_input(input);
         if (input[strlen(input) - 1] == '\n') {input[strlen(input) - 1] = '\0';}
 
         if (strcmp(input, "stop") == 0) {
@@ -30,24 +32,49 @@ int main() {
 
 void execute_command(char* command) 
 {
-    char comp;
-    double real, imag;
+    char comp1, comp2;
+    double real, imag, test;
 
-    if (sscanf(command, "read_comp %c, %lf, %lf", &comp, &real, &imag) == 3) 
+    if (sscanf(command, "read_comp %c, %lf, %lf", &comp1, &real, &imag) == 3) 
     {
-        printf("Setting complex %c to %.2f + (%.2f)i\n", comp, real, imag);
-        read_comp(find_comp(comp), real, imag);
+        printf("Setting complex %c to %.2f + (%.2f)i\n", comp1, real, imag);
+        read_comp(find_comp(comp1), real, imag);
     } 
-    else if (sscanf(command, "print_comp %c", &comp) == 1) 
+    else if (sscanf(command, "print_comp %c", &comp1) == 1) 
     {
-        printf("Printing complex %c\n", comp);
-        print_comp(*find_comp(comp)); 
+        printf("Printing complex %c\n", comp1);
+        print_comp(*find_comp(comp1)); 
     } 
-    else if (sscanf(command, "print_comp %c", &comp) == 1) 
+    else if (sscanf(command, "add_comp %c, %c", &comp1, &comp2) == 2) 
     {
-        printf("Printing complex %c\n", comp);
-        print_comp(*find_comp(comp)); 
-    } 
+        printf("Add complex %c to complex %c\n", comp1, &comp2);
+        add_comp(*find_comp(comp1), *find_comp(comp2)); 
+    }
+    else if (sscanf(command, "sub_comp %c, %c", &comp1, &comp2) == 2) 
+    {
+        printf("Sub complex %c from complex %c\n", comp1, &comp2);
+        sub_comp(*find_comp(comp1), *find_comp(comp2)); 
+    }
+    else if (sscanf(command, "mult_comp_real %c, %lf", &comp1, &real) == 2) 
+    {
+        printf("Multiply complex %c by real number %.2f\n", &comp1, real);
+        mult_comp_real(*find_comp(comp1), real); 
+    }
+    else if (sscanf(command, "mult_comp_img %c, %lf", &comp1, &imag) == 2) 
+    {
+        printf("Multiply complex %c by imaginary number %.2f\n", comp1, imag);
+        mult_comp_img(*find_comp(comp1), imag); 
+    }
+    else if (sscanf(command, "mult_comp_comp %c, %c", &comp1, &comp2) == 2) 
+    {
+        printf("Multiply complex %c by imaginary number %c\n", &comp1, &comp2);
+        mult_comp_comp(*find_comp(comp1), *find_comp(comp2)); 
+    }
+    else if (sscanf(command, "abs_comp %c", &comp1) == 1)
+    {
+        printf("Calculate the absolute value of complex %c\n", &comp1);
+        abs_comp(*find_comp(comp1)); 
+    }  
     else 
     {
         printf("Error: Unknown command or invalid format.\n");
@@ -80,4 +107,36 @@ complex* find_comp (char comp)
     default: 
         return NULL;
     }
+}
+
+void clean_input(char* input) 
+{
+    char cleaned[INPUT_SIZE];
+    int i = 0, j = 0;
+
+    while (input[i] != '\0') 
+    {
+        if (input[i] != ' ' && input[i] != '\t') 
+        {
+            cleaned[j] = input[i];
+            j++;
+        } 
+        else 
+        {
+            if (j > 0 && cleaned[j - 1] != ',' && cleaned[j - 1] != ' ') 
+            {
+                cleaned[j] = ' ';
+                j++;
+            }
+        }
+        i++;
+    }
+    if (j > 0 && cleaned[j - 1] == ' ') 
+    {
+        j--;
+    }
+
+    cleaned[j] = '\0';
+    printf("%s", cleaned);
+    strcpy(input, cleaned);
 }
