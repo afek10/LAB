@@ -5,6 +5,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
+
 #define INPUT_SIZE 100
 
 typedef struct {
